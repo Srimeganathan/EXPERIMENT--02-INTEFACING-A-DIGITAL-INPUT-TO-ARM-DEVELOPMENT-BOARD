@@ -51,36 +51,36 @@ The full form of an ARM is an advanced reduced instruction set computer (RISC) m
 
 
 ## STM 32 CUBE PROGRAM :
+
 ```
 #include "main.h"
-#include "stdbool.h"
+#include <stdbool.h>
+void push_button();
 bool button_status;
-
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 int main(void)
 {
- 
   HAL_Init();
   SystemClock_Config();
   MX_GPIO_Init();
   while (1)
   {
-	  	 button_status = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
-	  	 if (button_status == 0) {
-	  		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-	  		HAL_Delay(1000);
-	  		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-	  		HAL_Delay(1000);
-	  	 }
-	  	 else {
-	  		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-	  		HAL_Delay(1000);
-	  	 }
-
+	  push_button();
   }
 }
-
+void push_button()
+{
+	button_status = HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_13);
+	if(button_status==0)
+	{
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
+	}
+	else
+	{
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
+	}
+}
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -95,7 +95,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
@@ -107,54 +106,59 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
-
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PA5 */
   GPIO_InitStruct.Pin = GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-} 
+}
 void Error_Handler(void)
 {
-
   __disable_irq();
   while (1)
   {
   }
-  
 }
 
 #ifdef  USE_FULL_ASSERT
-
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-  
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-```
 
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+```
 
 ## Output  :
 
-## layout of the circuit 
+![WhatsApp Image 2025-11-13 at 8 32 07 AM](https://github.com/user-attachments/assets/47d65f54-3bcf-4ed0-b8f5-ec8f0b9553a3)
 
  
+## layout of the circuit 
+ 
+ <img width="847" height="780" alt="488744600-be839c8f-d257-4d85-8b9f-573a42e4c9f8" src="https://github.com/user-attachments/assets/8e2b595c-51a8-4b3f-956e-8a1a6e25a2a7" />
+
 ## Result :
 Interfacing a digital Input (Pushbutton ) with ARM microcontroller based IOT development is executed and the results are verified.

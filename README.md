@@ -149,22 +149,27 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    /* USER CODE END WHILE */
 	  push_button();
-  /* USER CODE BEGIN 3 */
+    /* USER CODE BEGIN 3 */
   }
+  /* USER CODE END 3 */
 }
 void push_button()
 {
-	pb=HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);
-	if(pb==0)
-	{
-		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
-	}
+pb=HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);
+if(pb==0)
+{
+
+	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
+	HAL_Delay(1000);
+}
 	else
 	{
 		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
+		HAL_Delay(1000);
 	}
- }
+}
 
 /**
   * @brief System Clock Configuration
@@ -177,27 +182,28 @@ void SystemClock_Config(void)
 
   /** Configure the main internal regulator output voltage
   */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
+  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+                              |RCC_CLOCKTYPE_PCLK1;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
   {
@@ -274,13 +280,11 @@ void assert_failed(uint8_t *file, uint32_t line)
 
 ## Output  :
 
-<img width="1080" height="757" alt="image" src="https://github.com/user-attachments/assets/4fb54851-7ebc-4fe5-9864-90a3cc2510a8" />
+<img width="1919" height="1199" alt="image" src="https://github.com/user-attachments/assets/b92c0d70-f249-4add-a125-039e5b008f79" />
 
 
- 
-## layout of the circuit 
- 
-<img width="900" height="593" alt="Screenshot 2026-07-30 085132" src="https://github.com/user-attachments/assets/75cbbde0-6f36-4757-bc3c-4fda4ab18aaa" />
+<img width="1919" height="1199" alt="image" src="https://github.com/user-attachments/assets/3641f510-3e29-40ec-b642-84b3b80a9fc3" />
+
 
 
 ## Result :
